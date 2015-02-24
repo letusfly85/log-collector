@@ -1,0 +1,5 @@
+{
+	"ImportPath": "github.com/future/lsx/sa/tools",
+	"GoVersion": "go1.3.3",
+	"Deps": []
+}
