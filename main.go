@@ -11,10 +11,8 @@ import (
 	"strings"
 )
 
-//TODO: modify to use configuration
-const (
-	LOG_HOME = "/opt/script/log_view/elasticsearch"
-)
+var cfg Config = Config{}
+var logDir string
 
 func main() {
 	var ymd string
@@ -22,6 +20,9 @@ func main() {
 	flag.StringVar(&ymd, "ymd", "20150101", "yyyymmdd")
 	flag.StringVar(&hostName, "hostname", "your host", "hostname")
 	flag.Parse()
+
+	cfg, _ := GetConfig("conf.gcfg")
+	logDir = cfg.LogInfo.LogDir
 
 	indexName := hostName + "_" + ymd
 	documentNames := []string{"CPUUtilization", "FreeableMemory", "WriteIOPS", "ReadIOPS", "ReadLatency", "WriteLatency", "DiskQueueDepth"}
@@ -56,7 +57,7 @@ func put2ElasticSearch(indexName string, documentName string, params map[int][]b
 
 func matchedPathList(hostName string, documentName string, ymd string) []string {
 	pattern := "*" + hostName + "*" + documentName + "*.dat"
-	path := filepath.Join(LOG_HOME, "log", "target_log", ymd, pattern)
+	path := filepath.Join(logDir, "log", "target_log", ymd, pattern)
 	files, _ := filepath.Glob(path)
 
 	return files

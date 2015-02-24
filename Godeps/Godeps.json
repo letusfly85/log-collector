@@ -1,5 +1,10 @@
 {
 	"ImportPath": "github.com/future/lsx/sa/tools",
 	"GoVersion": "go1.3.3",
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/gcfg",
+			"Rev": "c2d3050044d05357eaf6c3547249ba57c5e235cb"
+		}
+	]
 }
