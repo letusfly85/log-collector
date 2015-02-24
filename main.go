@@ -11,20 +11,17 @@ import (
 	"strings"
 )
 
+//TODO: modify to use configuration
 const (
 	LOG_HOME = "/opt/script/log_view/elasticsearch"
 )
 
 func main() {
 	var ymd string
-	flag.StringVar(&ymd, "ymd", "20150223", "yyyymmdd")
-
 	var hostName string
-	flag.StringVar(&hostName, "hostname", "hweb001", "hostname")
-
+	flag.StringVar(&ymd, "ymd", "20150101", "yyyymmdd")
+	flag.StringVar(&hostName, "hostname", "your host", "hostname")
 	flag.Parse()
-
-	println(ymd)
 
 	indexName := hostName + "_" + ymd
 	documentNames := []string{"CPUUtilization", "FreeableMemory", "WriteIOPS", "ReadIOPS", "ReadLatency", "WriteLatency", "DiskQueueDepth"}
@@ -36,7 +33,6 @@ func main() {
 		for _, file := range files {
 			index, params = generateParams(file, documentName, index, params)
 		}
-		println(len(params))
 		println(documentName)
 		put2ElasticSearch(indexName, documentName, params)
 	}
